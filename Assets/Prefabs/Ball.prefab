@@ -187,7 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   speed: 2
-  jumpSpeed: 1.45
+  jumpSpeed: 5
   isGrounded: 0
   deadPieces: {fileID: 5907608387604831016, guid: d6b637522e3f03b419877c719b919f30, type: 3}
 --- !u!50 &1257920297251427385
