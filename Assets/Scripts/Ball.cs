@@ -23,7 +23,7 @@ public class Ball : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         isGrounded = true;
-        if (collision.gameObject.name.Contains("Spike"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             Death();
         }
@@ -38,7 +38,6 @@ public class Ball : MonoBehaviour
     {
         if(collision.gameObject.name.Contains("Flag"))
         {
-            print("Win");
             GameManager.instance.Win();
         }
     }
@@ -62,14 +61,16 @@ public class Ball : MonoBehaviour
         Destroy(gameObject);
         for (int i = 0; i < 5; i++)
         {
+            var size = Random.Range(0.1f, 0.5f);
             var offset = transform.position + Random.insideUnitSphere / 2;
             var piece = Instantiate(deadPieces, offset, transform.rotation);
             piece.GetComponent<Rigidbody2D>().velocity = gameObject.GetComponent<Rigidbody2D>().velocity;
             var color = piece.GetComponent<SpriteRenderer>().color;
             color.r = Random.Range(0.5f, 1.5f);
             piece.GetComponent<SpriteRenderer>().color = color;
+            piece.transform.localScale = new Vector3(size, size, size);
         }
 
-        GameManager.instance.Invoke("Lose", 1f);
+        GameManager.instance.Lose();
     }
 }

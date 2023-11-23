@@ -5,17 +5,30 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    #region Variables
     public int hp = 3;
     public int currentLevel;
 
-    public List<string> levels;
+    public Transform transition;
+    Vector3 targetScale;
+    
+    public AudioClip winSound;
+    public AudioClip loseSound;
+    public AudioClip gameOverSound;
+    AudioSource source;
 
+    public List<string> levels;
+    #endregion
     // singleton
 
     public static GameManager instance;
+    
+    private bool hasWon;
 
     private void Start()
     {
+        source = GetComponent<AudioSource>();
+
         if (instance == null)
         {
             instance = this;
@@ -27,25 +40,44 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        transition.localScale = Vector3.MoveTowards(transition.localScale, targetScale, 75 * Time.deltaTime);
+    }
+
     public void Win()
     {
-        Invoke("LoadNextLevel", 0.5f);
+        hasWon = true;
+        currentLevel++;
+        targetScale = Vector3.one * 50;
+        source.PlayOneShot(winSound);
+        Invoke("LoadNextLevel", 0.6f);
+
     }
 
     void LoadNextLevel()
     {
-        currentLevel++;
         SceneManager.LoadScene(levels[currentLevel]);
+        targetScale = Vector3.zero;
+        hasWon = false;
     }
 
     public void Lose()
     {
-        hp--;
-        if (hp == 0)
+        if (!hasWon)
         {
-            currentLevel = 0;
-            hp = 3;
+            targetScale = Vector3.one * 50;
+            hp--;
+            if (hp <= 0)
+            {
+                source.PlayOneShot(gameOverSound);
+                currentLevel = 0;
+                hp = 3;
+            }
+            else
+               source.PlayOneShot(loseSound);
+        
+            Invoke("LoadNextLevel", 0.6f);
         }
-        SceneManager.LoadScene(levels[currentLevel]);
     }
 }
