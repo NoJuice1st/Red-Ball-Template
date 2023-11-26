@@ -7,16 +7,18 @@ public class Ball : MonoBehaviour
     #region Variables
 
     public Rigidbody2D rb;
-    public float speed;
+    public float moveForce;
     public float jumpSpeed;
     public bool isGrounded;
     public GameObject deadPieces;
+    public GameObject gameManager;
 
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        Instantiate(gameManager);
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -53,7 +55,7 @@ public class Ball : MonoBehaviour
 
         float hor = Input.GetAxis("Horizontal");
         
-        rb.AddForce(new Vector2(hor,0) * speed);
+        rb.AddForce(new Vector2(hor,0) * moveForce * Time.deltaTime);
     }
 
     private void Death()

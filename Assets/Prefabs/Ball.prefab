@@ -186,10 +186,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  speed: 2
-  jumpSpeed: 5
+  moveForce: 1000
+  jumpSpeed: 3.5
   isGrounded: 0
   deadPieces: {fileID: 5907608387604831016, guid: d6b637522e3f03b419877c719b919f30, type: 3}
+  gameManager: {fileID: 7343516647335178136, guid: 31e71ae6d952e9a4dab0acdd2bdf265b, type: 3}
 --- !u!50 &1257920297251427385
 Rigidbody2D:
   serializedVersion: 4
